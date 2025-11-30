@@ -1,0 +1,9 @@
+pandoc: 3.1.11
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  method-selection: method-selection.html
+last_built: 2025-11-30T19:23Z
+urls:
+  reference: https://github.com/ikrakib/modernBoot/reference
+  article: https://github.com/ikrakib/modernBoot/articles

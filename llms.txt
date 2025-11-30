@@ -1,0 +1,48 @@
+Implements modern resampling methods (nonparametric, wild, block,
+stationary), automated method selection, and tools for simulation
+studies. Includes parallel backends and multiple-testing-aware
+permutation tests.
+
+# Package index
+
+## Bootstrap Confidence Intervals
+
+- [`bs_mean()`](https://github.com/ikrakib/modernBoot/reference/bs_mean.md)
+  : Nonparametric Bootstrap Confidence Interval for the Mean
+- [`bca_ci()`](https://github.com/ikrakib/modernBoot/reference/bca_ci.md)
+  : Bias-Corrected and Accelerated (BCa) Bootstrap Confidence Interval
+- [`studentized_ci()`](https://github.com/ikrakib/modernBoot/reference/studentized_ci.md)
+  : Studentized Bootstrap Confidence Interval for Quantiles
+
+## Time Series Bootstrap
+
+- [`moving_block_boot()`](https://github.com/ikrakib/modernBoot/reference/moving_block_boot.md)
+  : Moving Block Bootstrap for Time Series
+- [`stationary_boot()`](https://github.com/ikrakib/modernBoot/reference/stationary_boot.md)
+  : Stationary Bootstrap (Politis & Romano)
+
+## Regression Bootstrap
+
+- [`wild_boot_lm()`](https://github.com/ikrakib/modernBoot/reference/wild_boot_lm.md)
+  : Wild Bootstrap for Linear Model Coefficients
+
+## Permutation Tests
+
+- [`perm_test_2sample()`](https://github.com/ikrakib/modernBoot/reference/perm_test_2sample.md)
+  : Two-Sample Permutation Test
+- [`perm_maxT()`](https://github.com/ikrakib/modernBoot/reference/perm_maxT.md)
+  : Permutation maxT for Multiple Testing
+
+## Utilities
+
+- [`auto_select_method()`](https://github.com/ikrakib/modernBoot/reference/auto_select_method.md)
+  : Automatic Resampling Method Selection
+- [`compare_methods_sim()`](https://github.com/ikrakib/modernBoot/reference/compare_methods_sim.md)
+  : Simulation Study: Compare Bootstrap Methods
+
+# Articles
+
+### Guides
+
+- [Method Selection and Practical
+  Examples](https://github.com/ikrakib/modernBoot/articles/method-selection.md):
