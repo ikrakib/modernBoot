@@ -1,2 +1,42 @@
-^modernBoot\.Rproj$
+# Git and version control
+^\.git$
+^\.gitignore$
+^\.github$
+
+# RStudio and IDE files
 ^\.Rproj\.user$
+^\.Rhistory$
+^\.RData$
+^\.Rapp\.history$
+^.*\.Rproj$
+
+# OS files
+^\.DS_Store$
+^Thumbs\.db$
+
+# Documentation/CI
+^docs$
+^\.github/workflows.*$
+^README\.Rmd$
+^CRAN-COMMENTS\.md$
+
+# Development files
+^\.editorconfig$
+^\.lintr$
+^\.pre-commit-config\.yaml$
+^CONTRIBUTING\.md$
+^LICENSE\.md$
+^LICENSE\.GPL$
+
+# Data files (if any)
+^data-raw$
+^inst/extdata$
+
+# vignette build artifacts (optional - R handles this)
+^vignettes/.*\.Rmd$
+^inst/doc$
+
+# Package archives
+^_pkgdown\.yml$
+^_pkgdown\.yaml$
+^pkgdown$

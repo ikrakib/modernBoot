@@ -1,0 +1,25 @@
+# modernBoot
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ikrakib/modernBoot/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ikrakib/modernBoot/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/modernBoot)](https://CRAN.R-project.org/package=modernBoot)
+<!-- badges: end -->
+
+## Overview
+
+**modernBoot** provides modern resampling methods for statistical inference, including:
+
+- **Nonparametric bootstrap** — standard percentile and BCa confidence intervals for the mean
+- **Wild bootstrap** — for heteroscedastic linear models with Rademacher and Mammen weights
+- **Block bootstrap** — moving block and stationary bootstrap for time series data
+- **Permutation tests** — two-sample permutation tests with maxT correction for multiple testing
+- **Automated method selection** — intelligent guidance on which resampling method to use
+- **Parallel computation** — leverages `future` and `future.apply` for optional parallelization
+
+This package is ideal for practitioners who need robust inference methods beyond standard parametric assumptions, especially in complex data settings (time series, clustered data, heteroscedastic models).
+
+## Installation
+
+You can install the development version of modernBoot from GitHub:
+

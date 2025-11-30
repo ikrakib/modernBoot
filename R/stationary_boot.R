@@ -1,0 +1,78 @@
+#' Stationary Bootstrap (Politis & Romano)
+#'
+#' Performs stationary bootstrap for dependent data with random block lengths.
+#' More flexible than fixed-block bootstrap for time series with variable dependence.
+#'
+#' @param x numeric vector or time series object. Should be univariate time series
+#'   with temporal dependence. Length n >= 2 required. If ts object, frequency
+#'   information is not preserved in output.
+#' @param p numeric probability parameter controlling average block length
+#'   (default 0.1). Must satisfy 0 < p <= 1. Average block length approximately
+#'   1/p: set p = 0.1 for average blocks of ~10 observations, p = 0.05 for ~20
+#'   observations. Smaller p values preserve longer-range dependence; larger p
+#'   values reduce distortion.
+#' @param R integer number of bootstrap replicates (default 1000).
+#'   Each replicate is complete time series of length n with random block structure.
+#'   Must be >= 1.
+#'
+#' @return A list of length R. Each element is a numeric vector of length n
+#'   (matching original series). Unlike moving block bootstrap, block lengths
+#'   vary randomly following geometric distribution, avoiding artificial
+#'   periodicity. Replicates preserve local dependence structure more flexibly
+#'   than fixed-block methods.
+#'
+#' @details
+#' The stationary bootstrap uses random block lengths drawn from a geometric distribution.
+#' This avoids artificial periodicity inherent in fixed-block methods.
+#' Set p = 1/m to have average block length approximately m.
+#'
+#' @examples
+#' set.seed(42)
+#' x <- arima.sim(n = 100, list(ar = 0.7))
+#' # Average block length of 10: p = 0.1
+#' result <- stationary_boot(x, p = 0.1, R = 100)
+#' length(result)  # 100 bootstrap replicates
+#'
+#' @export
+stationary_boot <- function(x, p = 0.1, R = 1000) {
+  check_numeric_vector(x, "x")
+  stopifnot(
+    is.numeric(p), p > 0, p <= 1,
+    is.numeric(R), R >= 1, R == as.integer(R)
+  )
+
+  n <- length(x)
+
+  # Generate bootstrap replicates
+  out <- vector("list", R)
+  for (r in seq_len(R)) {
+    boot_series <- numeric(n)
+    t <- 1
+
+    while (t <= n) {
+      # Random start position
+      start <- .safe_sample.int(n, 1)
+      # Random block length from geometric(p) + 1
+      block_len <- stats::rgeom(1, p) + 1
+      # End position (capped at n)
+      end <- min(n, t + block_len - 1)
+      # Length to actually fill
+      fill_len <- end - t + 1
+
+      # Fill with wrapped-around values
+      indices <- (start - 1 + seq_len(fill_len)) %% n + 1
+      boot_series[t:end] <- x[indices]
+
+      t <- end + 1
+    }
+
+    out[[r]] <- boot_series
+  }
+
+  out
+}
+
+# Helper for sampling integers
+.safe_sample.int <- function(n, size, ...) {
+  sample.int(n, size, ...)
+}

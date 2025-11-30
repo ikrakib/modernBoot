@@ -1,11 +1,24 @@
 Package: modernBoot
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Type: Package
+Title: Modern Resampling Methods: Bootstraps, Wild, Block, Permutation, and Selection Guidance
+Version: 0.1.0
+Authors@R: person("Ibrahim Kholil","Rakib", email = "ikrakib1010@gmail.com", role = c("aut", "cre"))
+Description: Implements modern resampling methods (nonparametric, wild, block, stationary), automated method selection, and tools for simulation studies. Includes parallel backends and multiple-testing-aware permutation tests.
+License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
+LazyData: true
+Depends: R (>= 4.0)
+Imports:
+    stats,
+    boot,
+    future,
+    future.apply
+Suggests:
+    testthat (>= 3.0.0),
+    covr,
+    pkgdown,
+    rhub
+URL: https://github.com/ikrakib/modernBoot
+BugReports: https://github.com/ikrakib/modernBoot/issues
+Config/testthat/edition: 3
 RoxygenNote: 7.3.3

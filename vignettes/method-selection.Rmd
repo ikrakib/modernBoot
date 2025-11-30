@@ -1,0 +1,341 @@
+---
+title: "Method Selection and Practical Examples"
+author: "Ibrahim Kholil Rakib"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Method Selection and Practical Examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`r ''`{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  eval = TRUE
+)
+library(modernBoot)
+set.seed(42)
+`r ''`
+
+# Introduction to modernBoot
+
+The **modernBoot** package provides modern resampling methods for statistical inference beyond standard parametric assumptions. This vignette demonstrates:
+
+- How to select the appropriate resampling method for your data
+- Practical examples for each main function
+- Guidelines for interpreting results
+- Best practices for publication-quality analyses
+
+## When to Use Each Method
+
+### Nonparametric Bootstrap (IID data)
+
+Use **`bs_mean()`** or **`bca_ci()`** when:
+- Your data are independent and identically distributed (IID)
+- Sample size is moderate to large (n ≥ 30)
+- You want confidence intervals for the mean
+
+**Example: Bootstrap CI for mean height**
+`r ''`{r bootstrap-example}
+# Simulate height measurements (in cm)
+heights <- c(172, 168, 175, 170, 180, 165, 178, 172, 169, 176)
+
+# Percentile bootstrap CI
+result_bs <- bs_mean(heights, R = 1000, conf = 0.95)
+cat("Sample mean:", round(result_bs$stat, 2), "\n")
+cat("95% CI:", round(result_bs$ci, 2), "to", round(result_bs$ci, 2), "\n")
+
+# BCa bootstrap (bias-corrected)
+result_bca <- bca_ci(heights, R = 1000, conf = 0.95)
+cat("BCa CI lower bound:", round(result_bca$ci, 2), "\n")
+cat("BCa CI upper bound:", round(result_bca$ci, 2), "\n")
+`r ''`
+
+**Key difference:** BCa is more accurate for skewed distributions.
+
+---
+
+### Time Series Bootstrap
+
+Use **`moving_block_boot()`** or **`stationary_boot()`** when:
+- Your data have temporal dependence (autocorrelation)
+- Standard IID bootstrap would be invalid
+- Examples: stock prices, climate data, economic time series
+
+**Example: Moving block bootstrap for AR(1) process**
+`r ''`{r timeseries-example}
+# Generate AR(1) time series
+ts_data <- arima.sim(n = 100, list(ar = 0.7), sd = 1)
+
+# Moving block bootstrap (block size = 10)
+boot_samples <- moving_block_boot(ts_data, block_size = 10, R = 200)
+
+# Compute bootstrap estimate of mean
+bootstrap_means <- sapply(boot_samples, mean)
+
+# Summary
+cat("Original mean:", round(mean(ts_data), 3), "\n")
+cat("Bootstrap mean (average):", round(mean(bootstrap_means), 3), "\n")
+cat("Bootstrap SE:", round(sd(bootstrap_means), 3), "\n")
+`r ''`
+
+**Choosing block size:** Use `block_size ≈ √n` as a rule of thumb.
+
+---
+
+### Wild Bootstrap for Regression
+
+Use **`wild_boot_lm()`** when:
+- You're fitting linear regression with **heteroscedasticity**
+- Residuals have non-constant variance
+- You want robust inference for coefficients
+
+**Example: Wild bootstrap for heteroscedastic regression**
+`r ''`{r wild-boot-example}
+# Generate heteroscedastic data
+set.seed(42)
+x <- seq(-2, 2, length = 50)
+y <- 2 + 1.5 * x + rnorm(50, sd = abs(x) * 0.5)  # Variance depends on x
+
+# Fit model
+fit <- lm(y ~ x)
+
+# Wild bootstrap with Rademacher weights
+wb_result <- wild_boot_lm(fit, R = 1000, type = "rademacher")
+
+cat("Intercept estimate:", round(wb_result$coef, 3), "\n")
+cat("Slope estimate:", round(wb_result$coef, 3), "\n")
+
+# Bootstrap confidence intervals for slope
+ci_slope <- quantile(wb_result$boot[2, ], probs = c(0.025, 0.975))
+cat("95% CI for slope:", round(ci_slope, 3), "to", round(ci_slope, 3), "\n")
+`r ''`
+
+**Weight schemes:**
+- **Rademacher**: ±1 with equal probability (faster, robust)
+- **Mammen**: Empirically calibrated distribution (asymptotically optimal)
+
+---
+
+### Permutation Tests
+
+Use **`perm_test_2sample()`** when:
+- Comparing two independent groups
+- Avoiding parametric assumptions
+- Data are small or non-normal
+
+**Example: Two-sample permutation test**
+`r ''`{r perm-test-example}
+# Group A: untreated
+group_a <- c(2.3, 4.1, 3.7, 2.9, 4.5, 3.2)
+
+# Group B: treated (appears higher)
+group_b <- c(5.1, 6.2, 4.8, 5.9, 6.7, 5.3)
+
+# Permutation test
+perm_result <- perm_test_2sample(group_a, group_b, R = 5000)
+
+cat("Mean Group A:", round(mean(group_a), 2), "\n")
+cat("Mean Group B:", round(mean(group_b), 2), "\n")
+cat("Difference:", round(perm_result$obs, 2), "\n")
+cat("Two-sided p-value:", round(perm_result$p.value, 4), "\n")
+`r ''`
+
+**Interpretation:** If p-value < 0.05, evidence of significant group difference.
+
+---
+
+### Multiple Testing with maxT
+
+Use **`perm_maxT()`** when:
+- Testing multiple variables/features simultaneously
+- Need to control family-wise error rate (FWER)
+- Examples: genomics, fMRI, survey data
+
+**Example: Permutation maxT for multiple testing**
+`r ''`{r perm-maxT-example}
+# Simulate gene expression data: 30 genes, 2 groups
+set.seed(42)
+data <- matrix(rnorm(600), nrow = 50, ncol = 12)  # 50 obs, 12 variables
+groups <- rep(0:1, each = 25)
+
+# Introduce true signal in variable 3
+data[1:25, 3] <- data[1:25, 3] + 1.5  # Group effect
+
+# Permutation maxT
+maxT_result <- perm_maxT(data, groups, R = 1000)
+
+# Results
+cat("Number of variables:", length(maxT_result$p.values), "\n")
+cat("FWER-adjusted p-values (first 5):\n")
+print(round(maxT_result$p.values[1:5], 4))
+cat("Variable 3 p-value:", round(maxT_result$p.values, 4), "\n")
+`r ''`
+
+**Key advantage:** Maintains FWER control while being more powerful than Bonferroni.
+
+---
+
+## Automatic Method Selection
+
+Use **`auto_select_method()`** to get recommendations:
+
+`r ''`{r auto-select}
+# Example 1: IID data
+x_iid <- rnorm(50)
+rec1 <- auto_select_method(x_iid)
+cat("IID data recommendation:", rec1$method, "\n")
+
+# Example 2: Time series
+ts <- arima.sim(n = 100, list(ar = 0.8))
+rec2 <- auto_select_method(ts)
+cat("Time series recommendation:", rec2$method, "\n")
+
+# Example 3: Multivariate data
+mat <- matrix(rnorm(300), nrow = 50, ncol = 6)
+rec3 <- auto_select_method(mat)
+cat("Multivariate recommendation:", rec3$method, "\n")
+`r ''`
+
+---
+
+## Advanced: Studentized CI for Quantiles
+
+For extreme quantiles or skewed distributions, use **`studentized_ci()`**:
+
+`r ''`{r studentized-example}
+# Right-skewed data (exponential)
+data_skewed <- rexp(100, rate = 0.5)
+
+# Standard median CI (quantile-based)
+# vs. Studentized CI (more accurate for skewed data)
+ci_studentized <- studentized_ci(data_skewed, q = 0.5, R = 500, Rinner = 100)
+
+cat("Studentized 95% CI for median:\n")
+cat("Lower:", round(ci_studentized, 2), "\n")
+cat("Upper:", round(ci_studentized, 2), "\n")
+`r ''`
+
+---
+
+## Simulation Study Example
+
+Compare bootstrap methods on data from a known distribution:
+
+`r ''`{r sim-example, eval = FALSE}
+# Define data generator
+generator <- function() {
+  # Sample from mixture of two normals (bimodal)
+  component <- sample(1:2, size = 50, replace = TRUE, prob = c(0.6, 0.4))
+  ifelse(component == 1,
+    rnorm(50, mean = -2, sd = 1),
+    rnorm(50, mean = 3, sd = 1)
+  )
+}
+
+# Run comparison
+sim_results <- compare_methods_sim(
+  data_generator = generator,
+  Rsim = 50,           # 50 simulated datasets
+  Rboot = 1000,        # 1000 bootstrap replicates each
+  parallel = TRUE      # Use parallelization
+)
+
+# Analyze coverage
+coverage_bs <- mean(sapply(sim_results, function(res) {
+  if (is.list(res$bs)) {
+    # Check if true mean (-2 to 3 range) is in CI
+    res$bs$ci <= 0.5 && 0.5 <= res$bs$ci
+  } else {
+    FALSE
+  }
+}))
+
+cat("Bootstrap coverage:", round(coverage_bs, 3), "\n")
+`r ''`
+
+---
+
+## Best Practices for Publication
+
+### 1. **Report Both Point Estimate and CI**
+`r ''`{r}
+result <- bs_mean(rnorm(50), R = 5000)
+# Report: Mean = X (95% CI: [A, B])
+`r ''`
+
+### 2. **Check Assumptions**
+- Plot your data before choosing a method
+- For time series, examine ACF plots
+- For regression, check residual plots for heteroscedasticity
+
+### 3. **Use Sufficient Bootstrap Replicates**
+- **R = 2000** for quick exploratory analysis
+- **R = 5000** for publication-quality results
+- **R = 10000** for extremely skewed distributions
+
+### 4. **Document Your Choice**
+In your methods section:
+> "We computed 95% confidence intervals using the moving block bootstrap with block size = 15 to account for temporal autocorrelation in the time series."
+
+---
+
+## Parallelization for Speed
+
+By default, `modernBoot` functions use sequential computation. For faster results on large datasets:
+
+`r ''`{r, eval = FALSE}
+library(future)
+
+# Enable parallel processing
+plan(multisession, workers = 4)
+
+# Now bootstrap/permutation calls use 4 cores
+result <- bs_mean(large_data, R = 10000)
+
+# Revert to sequential
+plan(sequential)
+`r ''`
+
+---
+
+## Common Pitfalls to Avoid
+
+❌ **Using standard bootstrap on dependent data** → Use block or stationary bootstrap
+
+❌ **Ignoring heteroscedasticity in regression** → Use wild bootstrap
+
+❌ **R too small** → CI may be unstable, use R ≥ 2000
+
+❌ **Multiple testing without correction** → Use permutation maxT
+
+✅ **Do use `auto_select_method()` if unsure** → It helps guide your choice
+
+---
+
+## References
+
+- Efron, B., & Tibshirani, R. J. (1993). *An introduction to the bootstrap*. Chapman and Hall/CRC.
+- Politis, D. N., & Romano, J. P. (1994). The stationary bootstrap. *Journal of the American Statistical Association*, 89(428), 1303-1313.
+- Wu, C. F. (1986). Jackknife, bootstrap and other resampling methods in regression analysis. *Annals of Statistics*, 14(4), 1261-1295.
+
+---
+
+## Getting Help
+
+`r ''`{r, eval = FALSE}
+# See all functions
+?modernBoot
+
+# Get help on specific function
+?bs_mean
+?wild_boot_lm
+?perm_test_2sample
+
+# View this vignette
+vignette("method-selection")
+`r ''`

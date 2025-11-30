@@ -1,0 +1,61 @@
+url: https://github.com/ikrakib/modernBoot
+
+template:
+  bootstrap: 5
+  bootswatch: cosmo
+
+navbar:
+  title: "modernBoot"
+  type: light
+  structure:
+    left: [home, intro, reference, articles]
+    right: [search, github]
+  components:
+    home:
+      icon: fas fa-home
+      href: index.html
+      aria-label: Home
+    intro:
+      text: "Get Started"
+      href: articles/method-selection.html
+    reference:
+      text: "Reference"
+      href: reference/index.html
+    articles:
+      text: "Vignettes"
+    github:
+      icon: fab fa-github
+      href: https://github.com/ikrakib/modernBoot
+      aria-label: "GitHub"
+
+home:
+  title: "Modern Resampling Methods in R"
+  description: "Bootstrap, permutation tests, and wild bootstrap for robust statistical inference"
+
+reference:
+  - title: "Bootstrap Confidence Intervals"
+    contents:
+      - bs_mean
+      - bca_ci
+      - studentized_ci
+  - title: "Time Series Bootstrap"
+    contents:
+      - moving_block_boot
+      - stationary_boot
+  - title: "Regression Bootstrap"
+    contents:
+      - wild_boot_lm
+  - title: "Permutation Tests"
+    contents:
+      - perm_test_2sample
+      - perm_maxT
+  - title: "Utilities"
+    contents:
+      - auto_select_method
+      - compare_methods_sim
+
+articles:
+  - title: "Guides"
+    navbar: "Vignettes"
+    contents:
+      - method-selection
