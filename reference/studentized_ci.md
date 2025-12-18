@@ -72,9 +72,19 @@ generated.
 
 ``` r
 set.seed(42)
-x <- rexp(50)  # right-skewed distribution
-ci <- studentized_ci(x, q = 0.75, R = 500, Rinner = 100)
-ci
+x <- rexp(30)  # Smaller sample: 30 instead of 50
+
+# Fast example with reduced replications (< 5 sec) - UNWRAPPED
+studentized_ci(x, q = 0.75, R = 100, Rinner = 20)
+#>     lower     upper 
+#> 0.9810471 1.6335035 
+
+# \donttest{
+# Larger, more accurate example (takes > 5 sec) - WRAPPED in \donttest
+set.seed(42)
+x <- rexp(50)
+studentized_ci(x, q = 0.75, R = 1000, Rinner = 200)
 #>    lower    upper 
-#> 1.072874 1.483589 
+#> 1.095099 1.504651 
+# }
 ```

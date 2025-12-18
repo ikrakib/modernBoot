@@ -9,7 +9,7 @@ More accurate than percentile intervals, especially for extreme quantiles."></he
 
     <a class="navbar-brand me-2" href="../index.html">modernBoot</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,11 +105,21 @@ for skewed distributions or extreme quantiles.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>  <span class="co"># right-skewed distribution</span></span></span>
-<span class="r-in"><span><span class="va">ci</span> <span class="op">&lt;-</span> <span class="fu">studentized_ci</span><span class="op">(</span><span class="va">x</span>, q <span class="op">=</span> <span class="fl">0.75</span>, R <span class="op">=</span> <span class="fl">500</span>, Rinner <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ci</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>  <span class="co"># Smaller sample: 30 instead of 50</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Fast example with reduced replications (&lt; 5 sec) - UNWRAPPED</span></span></span>
+<span class="r-in"><span><span class="fu">studentized_ci</span><span class="op">(</span><span class="va">x</span>, q <span class="op">=</span> <span class="fl">0.75</span>, R <span class="op">=</span> <span class="fl">100</span>, Rinner <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     lower     upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.9810471 1.6335035 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Larger, more accurate example (takes &gt; 5 sec) - WRAPPED in \donttest</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">studentized_ci</span><span class="op">(</span><span class="va">x</span>, q <span class="op">=</span> <span class="fl">0.75</span>, R <span class="op">=</span> <span class="fl">1000</span>, Rinner <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    lower    upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.072874 1.483589 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.095099 1.504651 </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
