@@ -47,9 +47,15 @@ bs_mean and bca_ci methods. Results can be used to study coverage rates,
 interval width, and method robustness.
 }
 \examples{
-\donttest{
+# Fast example (runs in < 5 sec) - UNWRAPPED
 set.seed(42)
-# Simulate from normal distribution
+generator <- function() rnorm(20)
+# Very small simulation for demonstration
+results_fast <- compare_methods_sim(generator, Rsim = 5, Rboot = 100)
+
+\donttest{
+# Realistic simulation (takes > 5 sec) - WRAPPED in \donttest
+set.seed(42)
 generator <- function() rnorm(50, mean = 5, sd = 2)
 sim_results <- compare_methods_sim(generator, Rsim = 50, Rboot = 500)
 

@@ -40,3 +40,7 @@
 ^_pkgdown\.yml$
 ^_pkgdown\.yaml$
 ^pkgdown$
+
+# Build artifacts
+^README\.html$
+^CRAN-SUBMISSION$
