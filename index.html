@@ -55,44 +55,126 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><code>modernBoot</code> provides modern and efficient bootstrap resampling techniques for:</p>
+<p><code>modernBoot</code> provides comprehensive tools for bootstrap resampling and statistical inference, addressing critical gaps in bootstrap methodology with modern, efficient implementations.</p>
+<div class="section level3">
+<h3 id="key-features">Key Features<a class="anchor" aria-label="anchor" href="#key-features"></a>
+</h3>
 <ul>
 <li>
-<strong>Confidence Interval Estimation</strong> – Multiple bootstrap CI methods</li>
+<strong>Prior Sensitivity Analysis</strong> – Assess posterior robustness to prior specification</li>
 <li>
-<strong>Hypothesis Testing</strong> – Bootstrap-based statistical tests</li>
+<strong>Automated Posterior Predictive Checks</strong> – Comprehensive diagnostic batteries</li>
 <li>
-<strong>Model Validation</strong> – Cross-validation with bootstrap</li>
+<strong>Advanced Model Comparison</strong> – Beyond WAIC/LOO using tracking and cross-validation</li>
 <li>
-<strong>Robust Statistics</strong> – Bootstrap for robust estimators</li>
+<strong>Convergence Diagnostics</strong> – Advanced MCMC diagnostics with Rank-Normalized Rhats</li>
+<li>
+<strong>Interactive Prior Elicitation</strong> – Tools for expert knowledge integration</li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
-</h2>
-<p>✨ <strong>Fast Bootstrap Algorithms</strong> - Vectorized operations for speed - Efficient resampling procedures</p>
-<p>🎯 <strong>Multiple CI Methods</strong> - Percentile method - BCa (Bias-Corrected and Accelerated) - Bootstrap-t method - Studentized bootstrap</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="section level3">
-<h3 id="from-cran">From CRAN<a class="anchor" aria-label="anchor" href="#from-cran"></a>
-</h3>
-<p>install.packages(“modernBoot”)</p>
-<p>text</p>
-</div>
-<div class="section level3">
-<h3 id="from-github">From GitHub<a class="anchor" aria-label="anchor" href="#from-github"></a>
+<h3 id="install-from-github">Install from GitHub:<a class="anchor" aria-label="anchor" href="#install-from-github"></a>
 </h3>
 <p>devtools::install_github(“ikrakib/modernBoot”)</p>
 <p>text</p>
 </div>
+<div class="section level3">
+<h3 id="once-available-on-cran">Once available on CRAN:<a class="anchor" aria-label="anchor" href="#once-available-on-cran"></a>
+</h3>
+<p>install.packages(“modernBoot”)</p>
+<p>text</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h2 id="quick-example">Quick Example<a class="anchor" aria-label="anchor" href="#quick-example"></a>
 </h2>
-<p>library(modernBoot) data &lt;- rnorm(100, mean = 5, sd = 2) result &lt;- boot_ci(data, mean, R = 1000, ci = “bca”) print(result)</p>
+<p>library(modernBoot) library(bayesplot)</p>
+<p>Fit Bayesian model data &lt;- mtcars fit &lt;- stan_glm(mpg ~ hp + wt, data = data, chains = 4)</p>
+<p>Run comprehensive diagnostics result &lt;- prior_sensitivity(fit) plot(result)</p>
+<p>Prior elicitation result &lt;- prior_elicitation_helper(fit) print(result)</p>
+<p>text</p>
+</div>
+<div class="section level2">
+<h2 id="functions-by-category">Functions by Category<a class="anchor" aria-label="anchor" href="#functions-by-category"></a>
+</h2>
+<div class="section level3">
+<h3 id="category-1-prior-sensitivity">Category 1: Prior Sensitivity<a class="anchor" aria-label="anchor" href="#category-1-prior-sensitivity"></a>
+</h3>
+<ul>
+<li>
+<code>prior_sensitivity()</code> – Comprehensive prior robustness analysis across priors</li>
+<li>
+<code>prior_predictive_check()</code> – Validate prior specifications</li>
+<li>
+<code>prior_c_effective()</code> – Test prior specification strength</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="category-2-posterior-predictive-checks">Category 2: Posterior Predictive Checks<a class="anchor" aria-label="anchor" href="#category-2-posterior-predictive-checks"></a>
+</h3>
+<ul>
+<li>
+<code>graphical_ppc()</code> – Customizable PPC visualizations</li>
+<li>
+<code>ppc_intervals()</code> – E-statistic with PPCs</li>
+<li>
+<code>posterior_js()</code> – Bayesian-based visualizations</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="category-3-model-comparison">Category 3: Model Comparison<a class="anchor" aria-label="anchor" href="#category-3-model-comparison"></a>
+</h3>
+<ul>
+<li>
+<code>bayes_factor_comparison()</code> – Multi-model comparison suite</li>
+<li>
+<code>laplace_factor_comparison()</code> – Laplace approximation for factors</li>
+<li>
+<code>model_waic()</code> – WAIC with effective sample size tracking</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="category-4-convergence-diagnostics">Category 4: Convergence Diagnostics<a class="anchor" aria-label="anchor" href="#category-4-convergence-diagnostics"></a>
+</h3>
+<ul>
+<li>
+<code>hierarchical_convergence()</code> – Hierarchical model diagnostics</li>
+<li>
+<code>rhat_rank_normalized()</code> – Rank-normalized Rhats</li>
+<li>
+<code>effective_sample_size_diagnostics()</code> – ESS measurement tools</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="category-5-prior-elicitation--utilities">Category 5: Prior Elicitation &amp; Utilities<a class="anchor" aria-label="anchor" href="#category-5-prior-elicitation--utilities"></a>
+</h3>
+<ul>
+<li>
+<code>prior_elicitation_helper()</code> – Interactive prior specification</li>
+<li>
+<code>extract_posterior_unified()</code> – Flexible posterior extraction</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<p>For detailed documentation, see the package vignettes: vignette(“bayesDiagnostics”)</p>
+<p>text</p>
+</div>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>Contributions are welcome! Please: 1. Fork the repository 2. Create a feature branch 3. Make your changes 4. Add tests 5. Submit a pull request</p>
+</div>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>Rakib, I. K. (2025). modernBoot: Advanced Bootstrap Resampling Methods. R package version 1.0. <a href="https://github.com/ikrakib/modernBoot" class="uri">https://github.com/ikrakib/modernBoot</a></p>
 <p>text</p>
 </div>
 <div class="section level2">
@@ -103,7 +185,19 @@
 <div class="section level2">
 <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
 </h2>
-<p>Ibrahim Kholil Rakib <a href="mailto:ikrakib1010@gmail.com" class="email">ikrakib1010@gmail.com</a></p>
+<p>Ibrahim Kholil Rakib<br>
+Email: <a href="mailto:ikrakib1010@gmail.com" class="email">ikrakib1010@gmail.com</a><br>
+GitHub: <a href="https://github.com/ikrakib" class="external-link">@ikrakib</a><br>
+LinkedIn: <a href="https://linkedin.com/in/ibrahim-kholil-rakib" class="external-link">Profile</a></p>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li>Efron, B., &amp; Tibshirani, R. J. (1993). <em>An Introduction to the Bootstrap</em>. Chapman and Hall/CRC.</li>
+<li>Davison, A. C., &amp; Hinkley, D. V. (1997). <em>Bootstrap Methods and Their Application</em>. Cambridge University Press.</li>
+</ul>
+<p>See <a href="https://github.com/ikrakib/modernBoot/releases">Releases</a> for changelog and version history.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
