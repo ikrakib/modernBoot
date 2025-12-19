@@ -48,8 +48,64 @@
   </div>
 </nav><div class="container template-home">
 <div class="row">
-  <main id="main" class="col-md-9">
-Implements modern resampling and permutation methods for robust statistical inference without restrictive parametric assumptions. Provides bias-corrected and accelerated (BCa) bootstrap (Efron and Tibshirani (1993) &lt;<a href="https://doi.org/10.1201/9780429246593" class="external-link">doi:10.1201/9780429246593</a>&gt;), wild bootstrap for heteroscedastic regression (Liu (1988) &lt;<a href="https://doi.org/10.1214/aos/1176351062" class="external-link">doi:10.1214/aos/1176351062</a>&gt;, Davidson and Flachaire (2008) &lt;<a href="https://doi.org/10.1016/j.jeconom.2008.08.003" class="external-link">doi:10.1016/j.jeconom.2008.08.003</a>&gt;), block bootstrap for time series (Politis and Romano (1994) &lt;<a href="https://doi.org/10.1080/01621459.1994.10476870" class="external-link">doi:10.1080/01621459.1994.10476870</a>&gt;), and permutation-based multiple testing correction (Westfall and Young (1993) &lt;ISBN:0-471-55761-7&gt;). Methods handle non-normal data, heteroscedasticity, time series correlation, and multiple comparisons.
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header"><h1 id="modernboot">modernBoot<a class="anchor" aria-label="anchor" href="#modernboot"></a>
+</h1></div>
+<p>Advanced Bootstrap Resampling Methods for Statistical Inference</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p><code>modernBoot</code> provides modern and efficient bootstrap resampling techniques for:</p>
+<ul>
+<li>
+<strong>Confidence Interval Estimation</strong> – Multiple bootstrap CI methods</li>
+<li>
+<strong>Hypothesis Testing</strong> – Bootstrap-based statistical tests</li>
+<li>
+<strong>Model Validation</strong> – Cross-validation with bootstrap</li>
+<li>
+<strong>Robust Statistics</strong> – Bootstrap for robust estimators</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<p>✨ <strong>Fast Bootstrap Algorithms</strong> - Vectorized operations for speed - Efficient resampling procedures</p>
+<p>🎯 <strong>Multiple CI Methods</strong> - Percentile method - BCa (Bias-Corrected and Accelerated) - Bootstrap-t method - Studentized bootstrap</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="from-cran">From CRAN<a class="anchor" aria-label="anchor" href="#from-cran"></a>
+</h3>
+<p>install.packages(“modernBoot”)</p>
+<p>text</p>
+</div>
+<div class="section level3">
+<h3 id="from-github">From GitHub<a class="anchor" aria-label="anchor" href="#from-github"></a>
+</h3>
+<p>devtools::install_github(“ikrakib/modernBoot”)</p>
+<p>text</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+</h2>
+<p>library(modernBoot) data &lt;- rnorm(100, mean = 5, sd = 2) result &lt;- boot_ci(data, mean, R = 1000, ci = “bca”) print(result)</p>
+<p>text</p>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>MIT License</p>
+</div>
+<div class="section level2">
+<h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
+</h2>
+<p>Ibrahim Kholil Rakib <a href="mailto:ikrakib1010@gmail.com" class="email">ikrakib1010@gmail.com</a></p>
+</div>
+</div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">

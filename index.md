@@ -1,14 +1,50 @@
-Implements modern resampling and permutation methods for robust
-statistical inference without restrictive parametric assumptions.
-Provides bias-corrected and accelerated (BCa) bootstrap (Efron and
-Tibshirani (1993)
-\<[doi:10.1201/9780429246593](https://doi.org/10.1201/9780429246593)\>),
-wild bootstrap for heteroscedastic regression (Liu (1988)
-\<[doi:10.1214/aos/1176351062](https://doi.org/10.1214/aos/1176351062)\>,
-Davidson and Flachaire (2008)
-\<[doi:10.1016/j.jeconom.2008.08.003](https://doi.org/10.1016/j.jeconom.2008.08.003)\>),
-block bootstrap for time series (Politis and Romano (1994)
-\<[doi:10.1080/01621459.1994.10476870](https://doi.org/10.1080/01621459.1994.10476870)\>),
-and permutation-based multiple testing correction (Westfall and Young
-(1993) \<ISBN:0-471-55761-7\>). Methods handle non-normal data,
-heteroscedasticity, time series correlation, and multiple comparisons.
+# modernBoot
+
+Advanced Bootstrap Resampling Methods for Statistical Inference
+
+## Overview
+
+`modernBoot` provides modern and efficient bootstrap resampling
+techniques for:
+
+- **Confidence Interval Estimation** – Multiple bootstrap CI methods
+- **Hypothesis Testing** – Bootstrap-based statistical tests
+- **Model Validation** – Cross-validation with bootstrap
+- **Robust Statistics** – Bootstrap for robust estimators
+
+## Features
+
+✨ **Fast Bootstrap Algorithms** - Vectorized operations for speed -
+Efficient resampling procedures
+
+🎯 **Multiple CI Methods** - Percentile method - BCa (Bias-Corrected and
+Accelerated) - Bootstrap-t method - Studentized bootstrap
+
+## Installation
+
+### From CRAN
+
+install.packages(“modernBoot”)
+
+text
+
+### From GitHub
+
+devtools::install_github(“ikrakib/modernBoot”)
+
+text
+
+## Quick Start
+
+library(modernBoot) data \<- rnorm(100, mean = 5, sd = 2) result \<-
+boot_ci(data, mean, R = 1000, ci = “bca”) print(result)
+
+text
+
+## License
+
+MIT License
+
+## Author
+
+Ibrahim Kholil Rakib <ikrakib1010@gmail.com>
