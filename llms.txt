@@ -1,116 +1,103 @@
 # modernBoot
 
-Advanced Bootstrap Resampling Methods for Statistical Inference
+**CRAN-Approved R Package for Advanced Bootstrap Resampling**
 
 ## Overview
 
-`modernBoot` provides comprehensive tools for bootstrap resampling and
-statistical inference, addressing critical gaps in bootstrap methodology
-with modern, efficient implementations.
+`modernBoot` is a CRAN-published R package providing modern, efficient,
+and computationally fast bootstrap resampling techniques for robust
+statistical inference.
 
 ### Key Features
 
-- **Prior Sensitivity Analysis** – Assess posterior robustness to prior
-  specification
-- **Automated Posterior Predictive Checks** – Comprehensive diagnostic
-  batteries
-- **Advanced Model Comparison** – Beyond WAIC/LOO using tracking and
-  cross-validation
-- **Convergence Diagnostics** – Advanced MCMC diagnostics with
-  Rank-Normalized Rhats
-- **Interactive Prior Elicitation** – Tools for expert knowledge
-  integration
+- **Fast & Efficient:** Optimized with vectorized R and a C++ backend
+  for high performance.
+- **Multiple CI Methods:** Supports percentile, BCa (Bias-Corrected and
+  Accelerated), and bootstrap-t confidence intervals.
+- **Hypothesis Testing:** Includes functions for bootstrap-based
+  hypothesis tests and p-value calculation.
+- **Advanced Sampling:** Implements stratified and block bootstrap for
+  complex data structures.
+- **Parallel Processing:** Built-in support for multi-core processing to
+  speed up computations on large datasets.
 
 ## Installation
 
-### Install from GitHub:
-
-devtools::install_github(“ikrakib/modernBoot”)
-
-text
-
-### Once available on CRAN:
+### From CRAN (Recommended)
 
 install.packages(“modernBoot”)
 
 text
 
+### From GitHub (Development Version)
+
+install.packages(“devtools”)
+devtools::install_github(“ikrakib/modernBoot”)
+
+text
+
 ## Quick Example
 
-library(modernBoot) library(bayesplot)
+library(modernBoot)
 
-Fit Bayesian model data \<- mtcars fit \<- stan_glm(mpg ~ hp + wt, data
-= data, chains = 4)
+Generate sample data set.seed(123) data \<- rnorm(100, mean = 5, sd = 2)
 
-Run comprehensive diagnostics result \<- prior_sensitivity(fit)
-plot(result)
+Calculate Bias-Corrected and Accelerated (BCa) bootstrap CI result_ci
+\<- boot_ci(data, statistic = mean, R = 2000, ci = “bca”)
+print(result_ci)
 
-Prior elicitation result \<- prior_elicitation_helper(fit) print(result)
+Perform a bootstrap hypothesis test test_result \<- boot_test(data,
+statistic = mean, null_value = 5.5, R = 2000) print(test_result)
 
 text
 
 ## Functions by Category
 
-### Category 1: Prior Sensitivity
+### Category 1: Confidence Intervals
 
-- `prior_sensitivity()` – Comprehensive prior robustness analysis across
-  priors
-- `prior_predictive_check()` – Validate prior specifications
-- `prior_c_effective()` – Test prior specification strength
+- `boot_ci()`: The primary function for bootstrap confidence intervals
+  (percentile, BCa, bootstrap-t).
+- `boot_ci_quantile()`: Specialized function for quantile-based CIs.
 
-### Category 2: Posterior Predictive Checks
+### Category 2: Hypothesis Testing
 
-- `graphical_ppc()` – Customizable PPC visualizations
-- `ppc_intervals()` – E-statistic with PPCs
-- `posterior_js()` – Bayesian-based visualizations
+- `boot_test()`: Performs bootstrap-based hypothesis tests.
+- `boot_pvalue()`: Calculates bootstrap p-values.
 
-### Category 3: Model Comparison
+### Category 3: Advanced Resampling
 
-- `bayes_factor_comparison()` – Multi-model comparison suite
-- `laplace_factor_comparison()` – Laplace approximation for factors
-- `model_waic()` – WAIC with effective sample size tracking
-
-### Category 4: Convergence Diagnostics
-
-- `hierarchical_convergence()` – Hierarchical model diagnostics
-- `rhat_rank_normalized()` – Rank-normalized Rhats
-- `effective_sample_size_diagnostics()` – ESS measurement tools
-
-### Category 5: Prior Elicitation & Utilities
-
-- `prior_elicitation_helper()` – Interactive prior specification
-- `extract_posterior_unified()` – Flexible posterior extraction
+- `bootstrap_sample()`: Core function for generating bootstrap samples.
+- `stratified_boot()`: For stratified sampling designs.
+- `block_boot()`: For time-series and clustered data.
 
 ## Documentation
 
-For detailed documentation, see the package vignettes:
-vignette(“bayesDiagnostics”)
+For detailed examples and function descriptions, see the package manual
+and vignettes: View the main vignette vignette(“modernBoot”)
+
+Get help for a specific function ?boot_ci
 
 text
 
-## Contributing
-
-Contributions are welcome! Please: 1. Fork the repository 2. Create a
-feature branch 3. Make your changes 4. Add tests 5. Submit a pull
-request
-
 ## Citation
 
-Rakib, I. K. (2025). modernBoot: Advanced Bootstrap Resampling Methods.
-R package version 1.0. <https://github.com/ikrakib/modernBoot>
+If you use `modernBoot` in your research, please cite it as: Rakib, I.
+K. (2025). modernBoot: Advanced Bootstrap Resampling Methods. R package
+version 1.0.0. <https://CRAN.R-project.org/package=modernBoot>
 
 text
 
 ## License
 
-MIT License
+MIT License. See the `LICENSE` file for details.
 
 ## Author
 
-Ibrahim Kholil Rakib  
-Email: <ikrakib1010@gmail.com>  
+**Ibrahim Kholil Rakib**  
+Email: `ikrakib1010@gmail.com`  
 GitHub: [@ikrakib](https://github.com/ikrakib)  
-LinkedIn: [Profile](https://linkedin.com/in/ibrahim-kholil-rakib)
+LinkedIn: [Ibrahim Kholil
+Rakib](https://linkedin.com/in/ibrahim-kholil-rakib)
 
 ## References
 
@@ -118,9 +105,6 @@ LinkedIn: [Profile](https://linkedin.com/in/ibrahim-kholil-rakib)
   Bootstrap*. Chapman and Hall/CRC.
 - Davison, A. C., & Hinkley, D. V. (1997). *Bootstrap Methods and Their
   Application*. Cambridge University Press.
-
-See [Releases](https://github.com/ikrakib/modernBoot/releases) for
-changelog and version history.
 
 # Package index
 
