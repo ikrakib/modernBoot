@@ -1,6 +1,6 @@
 test_that("compare_methods_sim validates inputs", {
   expect_error(
-    compare_methods_sim(not_a_function, Rsim = 5),
+    compare_methods_sim("not_a_function", Rsim = 5),
     "data_generator must be a function"
   )
   
@@ -17,7 +17,7 @@ test_that("compare_methods_sim works with sequential processing", {
   result <- compare_methods_sim(gen, Rsim = 2, Rboot = 50, parallel = FALSE)
   
   expect_length(result, 2)
-  expect_is(result[[1]], "list")
+  expect_type(result[[1]], "list")
 })
 
 test_that("compare_methods_sim handles small simulations", {

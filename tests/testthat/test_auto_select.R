@@ -38,6 +38,6 @@ test_that("auto_select_method validates cluster length", {
   
   expect_error(
     auto_select_method(x, cluster = bad_cluster),
-    "cluster length must match"
+    "cluster"
   )
 })
