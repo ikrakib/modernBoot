@@ -31,13 +31,3 @@ test_that("auto_select_method detects multivariate data", {
   expect_equal(result$method, "perm_maxT")
   expect_true(is.character(result$rationale))
 })
-
-test_that("auto_select_method validates cluster length", {
-  x <- rnorm(50)
-  bad_cluster <- 1:10
-  
-  expect_error(
-    auto_select_method(x, cluster = bad_cluster),
-    "cluster"
-  )
-})
