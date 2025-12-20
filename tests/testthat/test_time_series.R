@@ -1,8 +1,4 @@
-# File: tests/testthat/test_time_series.R
-
 test_that("moving_block_boot works with basic time series", {
-  skip_if_not_installed("stats")
-  
   set.seed(42)
   x <- arima.sim(n = 100, list(ar = 0.7))
   result <- moving_block_boot(x, block_size = 10, R = 50)

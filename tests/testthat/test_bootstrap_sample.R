@@ -1,5 +1,3 @@
-# File: tests/testthat/test_bootstrap_sample.R
-
 test_that("bs_mean works with basic data", {
   set.seed(42)
   x <- rnorm(50, mean = 5, sd = 2)

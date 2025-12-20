@@ -1,5 +1,3 @@
-# File: tests/testthat/test_auto_select.R
-
 test_that("auto_select_method detects IID data", {
   x <- rnorm(50)
   result <- auto_select_method(x)
@@ -9,8 +7,6 @@ test_that("auto_select_method detects IID data", {
 })
 
 test_that("auto_select_method detects time series", {
-  skip_if_not_installed("stats")
-  
   set.seed(42)
   ts_data <- ts(rnorm(50), frequency = 12)
   result <- auto_select_method(ts_data)
