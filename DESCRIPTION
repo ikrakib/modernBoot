@@ -2,6 +2,8 @@ Package: modernBoot
 Type: Package
 Title: Modern Resampling Methods: Bootstraps, Wild, Block, Permutation, and Selection Guidance
 Version: 0.1.1
+Author: Ibrahim Kholil Rakib [aut, cre]
+Maintainer: Ibrahim Kholil Rakib <ikrakib1010@gmail.com>
 Authors@R: person("Ibrahim Kholil","Rakib", email = "ikrakib1010@gmail.com", role = c("aut", "cre"))
 Description: Implements modern resampling and permutation methods for robust 
     statistical inference without restrictive parametric assumptions. Provides 
