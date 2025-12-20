@@ -31,6 +31,9 @@ jobs:
       - name: Set up pandoc
         uses: r-lib/actions/setup-pandoc@v2
 
+      - name: Set up TinyTeX (for vignettes)
+        uses: r-lib/actions/setup-tinytex@v2
+
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
@@ -40,6 +43,7 @@ jobs:
       - name: Install R dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          cache-version: 2
           extra-packages: |
             devtools
             testthat
