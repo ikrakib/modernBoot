@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Modern Resampling Methods in R • modernBoot</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Modern Resampling Methods in R">
 <meta name="description" content="Bootstrap, permutation tests, and wild bootstrap for robust statistical inference">
@@ -51,7 +51,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="modernboot">modernBoot<a class="anchor" aria-label="anchor" href="#modernboot"></a>
 </h1></div>
-<p><strong>CRAN-Approved R Package for Advanced Bootstrap Resampling</strong></p>
+<p><strong>CRAN-Published R Package for Modern Resampling Methods</strong></p>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
@@ -61,7 +61,7 @@
 </h3>
 <ul>
 <li>
-<strong>Fast &amp; Efficient:</strong> Optimized with vectorized R and a C++ backend for high performance.</li>
+<strong>Efficient computation:</strong> Uses vectorized R and optional parallel processing through the <code>future</code> and <code>future.apply</code> packages.</li>
 <li>
 <strong>Multiple CI Methods:</strong> Supports percentile, BCa (Bias-Corrected and Accelerated), and bootstrap-t confidence intervals.</li>
 <li>
@@ -77,25 +77,44 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="section level3">
-<h3 id="from-cran-recommended">From CRAN (Recommended)<a class="anchor" aria-label="anchor" href="#from-cran-recommended"></a>
+<h3 id="from-cran">From CRAN<a class="anchor" aria-label="anchor" href="#from-cran"></a>
 </h3>
-<p>install.packages(“modernBoot”)</p>
-<p>text</p>
+<p>The stable version of <code>modernBoot</code> is available from CRAN:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"modernBoot"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="from-github-development-version">From GitHub (Development Version)<a class="anchor" aria-label="anchor" href="#from-github-development-version"></a>
+<h3 id="development-version">Development version<a class="anchor" aria-label="anchor" href="#development-version"></a>
 </h3>
-<p>install.packages(“devtools”) devtools::install_github(“ikrakib/modernBoot”)</p>
+<p>The development version can be installed from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ikrakib/modernBoot"</span><span class="op">)</span></span></code></pre></div>
 <p>text</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="quick-example">Quick Example<a class="anchor" aria-label="anchor" href="#quick-example"></a>
 </h2>
-<p>library(modernBoot)</p>
-<p>Generate sample data set.seed(123) data &lt;- rnorm(100, mean = 5, sd = 2)</p>
-<p>Calculate Bias-Corrected and Accelerated (BCa) bootstrap CI result_ci &lt;- boot_ci(data, statistic = mean, R = 2000, ci = “bca”) print(result_ci)</p>
-<p>Perform a bootstrap hypothesis test test_result &lt;- boot_test(data, statistic = mean, null_value = 5.5, R = 2000) print(test_result)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(modernBoot)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>Generate sample data</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">5</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>Calculate Bias<span class="sc">-</span>Corrected and <span class="fu">Accelerated</span> (BCa) bootstrap CI</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>result_ci <span class="ot">&lt;-</span> <span class="fu">boot_ci</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>              data,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>              <span class="at">statistic =</span> mean,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>              <span class="at">R =</span> <span class="dv">2000</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>              <span class="at">ci =</span> <span class="st">"bca"</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>             )</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>             </span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="fu">print</span>(result_ci)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>Perform a bootstrap hypothesis test</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>test_result <span class="ot">&lt;-</span> <span class="fu">boot_test</span>(data, <span class="at">statistic =</span> mean, <span class="at">null_value =</span> <span class="fl">5.5</span>, <span class="at">R =</span> <span class="dv">2000</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="fu">print</span>(test_result)</span></code></pre></div>
 <p>text</p>
 </div>
 <div class="section level2">
@@ -144,7 +163,15 @@
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>modernBoot</code> in your research, please cite it as: Rakib, I. K. (2025). modernBoot: Advanced Bootstrap Resampling Methods. R package version 1.0.0. <a href="https://CRAN.R-project.org/package=modernBoot" class="external-link uri">https://CRAN.R-project.org/package=modernBoot</a></p>
+</div>
+<div class="section level2">
+<h2 id="citation-1">Citation<a class="anchor" aria-label="anchor" href="#citation-1"></a>
+</h2>
+<p>To cite <code>modernBoot</code> in research, run:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"modernBoot"</span><span class="op">)</span></span></code></pre></div>
+<p>Current CRAN version: <strong>0.1.1</strong></p>
+<p>Package DOI: <code>10.32614/CRAN.package.modernBoot</code></p>
 <p>text</p>
 </div>
 <div class="section level2">
@@ -212,7 +239,7 @@ LinkedIn: <a href="https://linkedin.com/in/ibrahim-kholil-rakib" class="external
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
