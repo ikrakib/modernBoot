@@ -1,6 +1,6 @@
 # modernBoot
 
-**CRAN-Approved R Package for Advanced Bootstrap Resampling**
+**CRAN-Published R Package for Modern Resampling Methods**
 
 ## Overview
 
@@ -8,7 +8,7 @@
 
 ### Key Features
 
-- **Fast & Efficient:** Optimized with vectorized R and a C++ backend for high performance.
+- **Efficient computation:** Uses vectorized R and optional parallel processing through the `future` and `future.apply` packages.
 - **Multiple CI Methods:** Supports percentile, BCa (Bias-Corrected and Accelerated), and bootstrap-t confidence intervals.
 - **Hypothesis Testing:** Includes functions for bootstrap-based hypothesis tests and p-value calculation.
 - **Advanced Sampling:** Implements stratified and block bootstrap for complex data structures.
@@ -16,19 +16,28 @@
 
 ## Installation
 
-### From CRAN (Recommended)
+### From CRAN
+
+The stable version of `modernBoot` is available from CRAN:
+
+```r
 install.packages("modernBoot")
+```
 
-text
+### Development version
 
-### From GitHub (Development Version)
-install.packages("devtools")
-devtools::install_github("ikrakib/modernBoot")
+The development version can be installed from GitHub:
+
+```r
+install.packages("remotes")
+remotes::install_github("ikrakib/modernBoot")
+```
 
 text
 
 ## Quick Example
 
+```r
 library(modernBoot)
 
 Generate sample data
@@ -36,13 +45,19 @@ set.seed(123)
 data <- rnorm(100, mean = 5, sd = 2)
 
 Calculate Bias-Corrected and Accelerated (BCa) bootstrap CI
-result_ci <- boot_ci(data, statistic = mean, R = 2000, ci = "bca")
+result_ci <- boot_ci(
+              data,
+              statistic = mean,
+              R = 2000,
+              ci = "bca"
+             )
+             
 print(result_ci)
 
 Perform a bootstrap hypothesis test
 test_result <- boot_test(data, statistic = mean, null_value = 5.5, R = 2000)
 print(test_result)
-
+```
 text
 
 ## Functions by Category
@@ -73,9 +88,17 @@ text
 
 ## Citation
 
-If you use `modernBoot` in your research, please cite it as:
-Rakib, I. K. (2025). modernBoot: Advanced Bootstrap Resampling Methods.
-R package version 1.0.0. https://CRAN.R-project.org/package=modernBoot
+## Citation
+
+To cite `modernBoot` in research, run:
+
+```r
+citation("modernBoot")
+```
+
+Current CRAN version: **0.1.1**
+
+Package DOI: `10.32614/CRAN.package.modernBoot`
 
 text
 
